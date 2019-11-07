@@ -23,6 +23,7 @@ formEl.addEventListener('submit', function (ev) {
         id: nextId++,
         url,
         text,
+        likes: 0,
     };
     posts.push(post);
     rebuildList(postsEl, posts)
@@ -49,7 +50,21 @@ function rebuildList(containerEl, items) {
         el.innerHTML = `
         <img src="${item.url}" class="rounded" width="100"  height="100">
         ${item.text}
+        <span class="badge badge-secondary">${item.likes}</span>
+        <button type="button" class="btn btn-primary btn-sm" data-action="like">like</button>
+        <button type="button" class="btn btn-primary btn-sm" data-action="dislike">dislike</button>
         `;
+
+        el.querySelector('[data-action=like]').addEventListener('click', function (event) {
+            item.likes++;
+            rebuildList(containerEl , items)
+        });
+        el.querySelector('[data-action=dislike]').addEventListener('click', function (event) {
+            item.likes--;
+            rebuildList(containerEl , items)
+        });
         containerEl.appendChild(el);
-    }
+    };
+
+
 };
